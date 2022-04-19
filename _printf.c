@@ -1,124 +1,26 @@
 #include <stdarg.h>
 #include "main.h"
 #include <stdlib.h>
-#include <stddef.h>
+
+
 
 /**
- * get_op - select function for conversion char
- * @c: char to check
- * Return: pointer to function
- */
-
-int (*get_op(const char c))(va_list)
-{
-
-	int i = 0, var = 0;
-	va_list v_ls;
-	buffer *buf;
-
-	buf = buf_new();
-	if (buf == NULL)
-		return (-1);
-	if (format == NULL)
-		return (-1);
-	va_start(v_ls, format);
-	while (format[i])
-	{
-		buf_wr(buf);
-		if (format[i] == '%')
-		{
-			var = opid(buf, v_ls, format, i);
-			if (var < 0)
-			{
-				i = var;
-				break;
-			}
-			i += var;
-			continue;
-		}
-		buf->str[buf->index] = format[i];
-		buf_inc(buf);
-		i++;
-	}
-	buf_write(buf);
-	if (var >= 0)
-		i = buf->overflow;
-	buf_end(buf);
-	va_end(v_ls);
-	return (i);
-
-	int i = 0;
-
-	flags_p fp[] = {
-		{"c", print_char},
-		{"s", print_str},
-		{"i", print_nbr},
-		{"d", print_nbr},
-		{"b", print_binary},
-		{"o", print_octal},
-		{"x", print_hexa_lower},
-		{"X", print_hexa_upper},
-		{"u", print_unsigned},
-		{"S", print_str_unprintable},
-		{"r", print_str_reverse},
-		{"p", print_ptr},
-		{"R", print_rot13},
-		{"%", print_percent}
-	};
-	while (i < 14)
-	{
-		if (c == fp[i].c[0])
-		{
-			return (fp[i].f);
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-/**
- * _printf - Reproduce behavior of printf function
- * @format: format string
- * Return: value of printed chars
+ * _printf - produces output accrding to format
+ * @format: character string composed of zero or more directives.
+ *
+ * Return:  the number of characters printed (excluding the null byte used * to end output to strings)
  */
 
 int _printf(const char *format, ...)
 {
-	va_list ap;
 	int sum = 0, i = 0;
-	int (*func)();
 
-	if (!format || (format[0] == '%' && format[1] == '\0'))
-		return (-1);
-	va_start(ap, format);
-
-	while (format[i])
+	while (format[i] != '\0')
 	{
-		if (format[i] == '%')
-		{
-			if (format[i + 1] != '\0')
-				func = get_op(format[i + 1]);
-			if (func == NULL)
-			{
-				_putchar(format[i]);
-				sum++;
-				i++;
-			}
-			else
-			{
-				sum += func(ap);
-				i += 2;
-				continue;
-			}
-		}
-		else
-		{
-			_putchar(format[i]);
-			sum++;
-			i++;
-		}
+		printf("%c", format[i]);
+		sum++;
+		i++;
 	}
-	va_end(ap);
-	return (sum);
 
+	return (sum);
 }
