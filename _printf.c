@@ -29,46 +29,34 @@ int (*get_op(const char c))(va_list)
 		}
 		i++;
 	}
-	return (NULL);
+	return (0);
 }
 
 
 int _printf(const char *format, ...)
 {
 	va_list ap;
-	int sum = 0, i = 0;
-	int (*func)();
+	int sum = 0;
+	int i = 0;
+	int (*func)(va_list);
 
-	if (!format || (format[0] == '%' && format[1] == '\0'))
-		return (-1);
 	va_start(ap, format);
 
 	while (format[i])
 	{
 		if (format[i] == '%')
 		{
-			if (format[i + 1] != '\0')
-				func = get_op(format[i + 1]);
-			if (func == NULL)
-			{
-				_putchar(format[i]);
-				sum++;
-				i++;
-			}
-			else
-			{
-				sum += func(ap);
-				i += 2;
-				continue;
-			}
+			func = get_op(format[i + 1]);
+			func(ap);
+			//increment i
+			i += 2;
+			continue;
 		}
-		else
-		{
-			_putchar(format[i]);
-			sum++;
-			i++;
-		}
+		_putchar(format[i]);
+		i++;
 	}
 	va_end(ap);
 	return (sum);
 }
+
+
