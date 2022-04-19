@@ -18,11 +18,14 @@ int _printf(const char *format, ...)
 
 	while (format[i])
 	{
-		if (format[i] != '\0')
+		if (format[i] == '%')
 		{
-			printf("%c", format[i]);
-			sum++;
-			i++;
+			if (format[i + 1] != '\0')
+			{
+				printf("%c", format[i + 1]);
+				sum++;
+				i++;
+			}
 		}
 	}
 
