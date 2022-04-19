@@ -11,6 +11,28 @@
  * Return:  the number of characters printed (excluding the null byte used * to end output to strings)
  */
 
+
+int (*get_op(const char c))(va_list)
+{
+	int i = 0;
+
+	flags_p fp[] = {
+		{"c", print_char},
+		{"s", print_str},
+		{"%", print_percent}
+	};
+	while (i < 3)
+	{
+		if (c == fp[i].c[0])
+		{
+			return (fp[i].f);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+
 int _printf(const char *format, ...)
 {
 	va_list ap;
