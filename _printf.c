@@ -16,14 +16,14 @@ int _printf(const char *format, ...)
 {
 	int sum = 0, i = 0;
 
-	while (format[i] != '\0')
+	while (format[i])
 	{
-		printf("%c", format[i]);
-		printf("%s", format[i]);
-
-
-		sum++;
-		i++;
+		if (format[i] != '\0')
+		{
+			printf("%c", format[i]);
+			sum++;
+			i++;
+		}
 	}
 
 	return (sum);
