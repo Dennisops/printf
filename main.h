@@ -14,17 +14,5 @@ int _puts(char *str);
 int print_percent(va_list ap __attribute__((unused)));
 
 
-/**
- * struct flags_printf
- * @c: flag string
- * @f: pointer to func
- */
-
-typedef struct flags_printf
-{
-	char *c;
-	int (*f)(va_list);
-} flags_p;
-
 
 #endif

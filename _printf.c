@@ -20,11 +20,9 @@ int _printf(const char *format, ...)
 	{
 		if (format[i] != '\0')
 		{
-			if (format[i] == '%')
+			if (format[i + 1] == '%')
 			{
-				_putchar(format[i]);
-				sum++;
-				i++;
+				printf(format[i + 1]);
 			}
 			printf("%c", format[i]);
 			sum++;
